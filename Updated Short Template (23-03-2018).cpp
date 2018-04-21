@@ -75,7 +75,7 @@ int main () {
     freopen ( "00_input.txt", "r", stdin ); //freopen ( "00_output.txt", "w", stdout );
  	#endif
  
-	int t;
+	
 	
  
     return 0;
