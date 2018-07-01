@@ -1,5 +1,7 @@
 Euler Phi function: Given a positive integer N, finds the number of positive integers that are less
 than N and are relatively prime with N.
+
+ EulerPhi(N) = N * (1 - 1/p) (Here p is all prime that divides N)
  
 The below function takes k as parameter and finds phi(k)
  
@@ -30,3 +32,28 @@ vlong phi(int k) {
 }
 
 
+
+And the below program calculates EulerPhi of all numbers in the range [1,Max]
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define Max 1000000
+int phi[Max];
+
+void euler_phi(){
+	phi[1] = 0;
+ 
+	for(int i = 2;i<Max;i++){
+		if(!phi[i]){
+			phi[i] = i-1;
+			for(int j = (i<<1);j<Max;j+=i){
+				if(!phi[j]){
+					phi[j] = j;
+				}
+				phi[j] = phi[j]/i*(i-1);
+			}
+		}
+	}
+
+}
