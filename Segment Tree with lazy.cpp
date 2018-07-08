@@ -9,7 +9,7 @@ void init(int node, int b, int e) {
         return;
     }
 
-    int lf = node << 1, ri = lf | 1, md = b+e >> 1;
+    int lf = node << 1, ri = lf | 1, md = (b+e) >> 1;
     
     init(lf, b, md);
     init(ri, md+1, e);
@@ -27,7 +27,7 @@ vlong query(int node, int b, int e, int i, int j) {
         return tr[node];
     }
     
-    int lf = node << 1, ri = lf | 1, md = b+e >> 1;
+    int lf = node << 1, ri = lf | 1, md = (b+e) >> 1;
 
     vlong x = query(lf, b, md, i, j);
     vlong y = query(ri, md+1, e, i, j);
@@ -46,7 +46,7 @@ void update(int node, int b, int e, int i, vlong newvalue) {
         return;
     }
 
-    int lf = node << 1, ri = lf | 1, md = b+e >> 1;
+    int lf = node << 1, ri = lf | 1, md = (b+e) >> 1;
 
     update(lf, b, md, i, newvalue);
     update(ri, md+1, e, i, newvalue);
@@ -75,7 +75,7 @@ void update(int node, int b, int e, int i, int j, vlong x) {
         return;
     }
 
-    int lf = node << 1, ri = lf | 1, md = b+e >> 1;
+    int lf = node << 1, ri = lf | 1, md = (b+e) >> 1;
 
     update(lf, b, md, i, j, x);
     update(ri, md+1, e, i, j, x);
@@ -93,7 +93,7 @@ vlong query(int node, int b, int e, int i, int j, vlong carry) {
         return res;
     }
 
-    int lf = node << 1, ri = lf | 1, md = b+e >> 1;
+    int lf = node << 1, ri = lf | 1, md = (b+e) >> 1;
     
     vlong x = query(lf, b, md, i, j, carry+tr[node].prop);
     vlong y = query(ri, md+1, e, i, j, carry+tr[node].prop);
