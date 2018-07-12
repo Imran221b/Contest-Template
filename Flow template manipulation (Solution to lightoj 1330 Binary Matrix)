@@ -1,0 +1,284 @@
+#include <bits/stdc++.h>
+ 
+ 
+#define pb push_back
+#define nl puts ("")
+#define sp printf ( " " )
+#define phl printf ( "hello\n" )
+#define ff first
+#define ss second
+#define POPCOUNT __builtin_popcountll
+#define RIGHTMOST __builtin_ctzll
+#define LEFTMOST(x) (63-__builtin_clzll((x)))
+#define MP make_pair
+#define FOR(i,x,y) for(vlong i = (x) ; i <= (y) ; ++i)
+#define ROF(i,x,y) for(vlong i = (y) ; i >= (x) ; --i)
+#define CLR(x,y) memset(x,y,sizeof(x))
+#define UNIQUE(V) (V).erase(unique((V).begin(),(V).end()),(V).end())
+#define MIN(a,b) ((a)<(b)?(a):(b))
+#define MAX(a,b) ((a)>(b)?(a):(b))
+#define NUMDIGIT(x,y) (((vlong)(log10((x))/log10((y))))+1)
+#define SQ(x) ((x)*(x))
+#define ABS(x) ((x)<0?-(x):(x))
+#define FABS(x) ((x)+eps<0?-(x):(x))
+#define ALL(x) (x).begin(),(x).end()
+#define LCM(x,y) (((x)/gcd((x),(y)))*(y))
+#define SZ(x) ((vlong)(x).size())
+#define NORM(x) if(x>=mod) x-=mod;if(x<0) x+=mod;
+#define MOD(x,y) (((x)*(y))%mod)
+#define ODD(x) (((x)&1)==0?(0):(1))
+#define Set(N,cur) N=(N|(1LL<<cur))
+#define Reset(N,cur) N=(N&(~(1LL<<cur)))
+#define Check(N,cur) (!((N&(1LL<<cur))==0))
+#define fast_cin ios_base::sync_with_stdio(false);cin.tie(NULL)
+#define dump(x) cerr<<"~ "<<#x<<" = "<<x<<endl
+//Imran addition
+#define rep(i,n) for(int i = 1; i <= n; i++)
+#define mem CLR
+#define pf printf
+#define sc scanf
+#define endl "\n"
+#define gi(k) scanf("%d",&k)
+#define gl(k) scanf("%lld",&k)
+#define NMAX 2147483647
+#define LMAX 9223372036854775807LL
+ 
+using namespace std;
+ 
+ 
+#define LL long long
+#define LLU long long unsigned int
+typedef long long vlong;
+typedef unsigned long long uvlong;
+typedef pair < int, int > pii;
+typedef pair < vlong, vlong > pll;
+typedef vector<int> vi;
+typedef vector<vlong> vl;
+typedef vector<pll> vll;
+ 
+inline vlong gcd ( vlong a, vlong b ) {
+    a = ABS ( a ); b = ABS ( b );
+    while ( b ) { a = a % b; swap ( a, b ); } return a;
+}
+ 
+ 
+const vlong inf = 2147383647;
+const vlong mod = 1000000007;
+const double pi = 2 * acos ( 0.0 );
+const double eps = 1e-9;
+
+
+#define NODE 200
+#define EDGE 6000
+
+struct node {
+    int x, y, next, cap, cost, flag;
+};
+
+/*
+1. Clear graph
+2. Add edge
+3. Assign source and sink
+4. Pass highestNumberOfNode to maxFlow() or minCostMaxFlow()
+*/
+
+struct FLOW {
+    int source, sink;
+
+    int head[NODE];
+    void clear() {
+        e = 0;
+        CLR(head,-1);
+    }
+
+    node edge[EDGE]; int e;
+    void addEdge ( int u, int v, int cap, int cap2, int cost ) {
+        edge[e].x = u; edge[e].y = v; edge[e].cap = cap; edge[e].cost = cost;
+        edge[e].next = head[u]; head[u] = e; edge[e].flag = 0; e++;
+        edge[e].x = v; edge[e].y = u; edge[e].cap = cap2; edge[e].cost = -cost;
+        edge[e].next = head[v]; head[v] = e; edge[e].flag = 0; e++;
+    }
+
+    int vis[NODE], q[NODE], now[NODE];
+    bool bfs ( ) {
+        memset ( vis, -1, sizeof vis );
+        vis[source] = 0;
+        int ini = 0, qend = 0;
+        q[qend++] = source;
+
+        while ( ini < qend && vis[sink] == -1 ) {
+            int s = q[ini++];
+            int i;
+            for (i=head[s];i!=-1;i= edge[i].next){
+                if(edge[i].flag) continue;
+                int t = edge[i].y;
+                if ( vis[t] == -1 && edge[i].cap){
+                    vis[t] = vis[s] + 1;
+                    q[qend++] = t;
+                }
+            }
+        }
+        if ( vis[sink] != -1 ) return true;
+        else return false;
+    }
+    int dfs ( int s, int f ) {
+        if ( f == 0 ) return 0;
+        if ( s == sink ) return f;
+        for ( int &i=now[s];i!=-1;i=edge[i].next){
+            
+            if(edge[i].flag) continue;
+
+            int t = edge[i].y;
+            if ( vis[s] + 1 != vis[t] ) continue;
+            int pushed=dfs(t,MIN(f,edge[i].cap));
+            if ( pushed ) {
+                edge[i].cap -= pushed;
+                edge[i^1].cap += pushed;
+                return pushed;
+            }
+        }
+        return 0;
+    }
+
+    int maxFlow ( int highestNumberOfNode, int flow ) {
+        int res = 0;
+        while ( 1 ) {
+            if ( flow == 0 ) break;
+            if ( bfs () == false ) break;
+            int i;
+            for ( i=0;i<=highestNumberOfNode;i++)now[i]= head[i];
+            while (int pushed=dfs(source,flow ) ) {
+                res += pushed; ///Can overflow depending on Max Flow
+                flow -= pushed;
+            }
+        }
+        return res;
+    }
+
+}graph;
+
+
+int n,m,ar[55],br[55],row[55],column[55],mat[55][55];
+
+
+void graph_build() {
+
+    graph.clear();
+
+    graph.source = 0;
+    graph.sink = n+m+1;
+
+    rep(i,n) {
+        row[i] = graph.e;
+        graph.addEdge(0,i,ar[i],0,0);
+    }
+
+    rep(i,m) {
+        column[i] = graph.e;
+        graph.addEdge(n+i,n+m+1,br[i],0,0);
+    }
+
+    rep(i,n) {
+        rep(j,m) {
+            mat[i][j] = graph.e;
+            graph.addEdge(i,n+j,1,0,0);
+        }
+    }
+}
+ 
+ 
+int main () {
+ 
+    #ifdef forthright48
+    freopen ( "00_input.txt", "r", stdin ); //freopen ( "00_output.txt", "w", stdout );
+    #endif
+ 
+    int t; cin >> t;
+
+    rep(kas,t) {
+
+        int tot1 = 0, tot2 = 0, x;
+
+        gi(n); gi(m);
+
+        rep(i,n) {
+            gi(ar[i]);
+            tot1 += ar[i];
+        }
+
+        rep(i,m) {
+            gi(br[i]);
+            tot2 += br[i];
+        }
+
+        if(tot1 != tot2) {
+            pf("Case %d: impossible\n",kas);
+            continue;
+        }
+
+        graph_build();
+
+        x = graph.maxFlow(n+m+1,1e9);
+
+        if(x < tot1) {
+           pf("Case %d: impossible\n",kas);
+        }
+
+        else {
+            rep(i,n) {
+                rep(j,m) {
+                    
+                    if(graph.edge[ mat[i][j] ].cap == 0) {
+
+                        graph.edge[ mat[i][j] ].cap++;
+                        graph.edge[ mat[i][j] ^ 1 ].cap--;
+
+                        graph.edge[ row[i] ].cap++;
+                        graph.edge[ row[i] ^ 1 ].cap--;
+
+                        graph.edge[ column[j] ].cap++;
+                        graph.edge[ column[j] ^ 1 ].cap--; 
+
+                        graph.edge[ mat[i][j] ].flag = 1;
+                        graph.edge[ mat[i][j] ^ 1 ].flag = 1;
+                        
+                        x = graph.maxFlow(n+m+1,1e9); 
+
+                        if(!x) {
+
+                            graph.edge[ mat[i][j] ].cap--;
+                            graph.edge[ mat[i][j] ^ 1 ].cap++;
+
+                            graph.edge[ row[i] ].cap--;
+                            graph.edge[ row[i] ^ 1 ].cap++;
+
+                            graph.edge[ column[j] ].cap--;
+                            graph.edge[ column[j] ^ 1 ].cap++; 
+
+                            //graph.edge[ mat[i][j] ].flag = 0;
+                            //graph.edge[ mat[i][j] ^ 1 ].flag = 0;
+                        } 
+                    }
+
+                    else {
+                        graph.edge[ mat[i][j] ].flag = 1;
+                        graph.edge[ mat[i][j] ^ 1 ].flag = 1;
+                    } 
+                }
+            }
+
+            pf("Case %d:\n",kas);
+
+            rep(i,n) {
+                rep(j,m) {
+                    pf( "%d", graph.edge[ mat[i][j] ].cap ^ 1); 
+                }
+
+                nl;
+            }
+        }
+    }
+    
+ 
+    return 0;
+}
