@@ -1,0 +1,89 @@
+Pick's theorem is used to find the number of lattice points strictly inside a simple polygon whose's vertices are all on
+lattice points. 
+
+Let, B = #of lattice points on the boundary of the polygon
+     I = #of lattice points inside the polygon
+     A = polygon's area
+     
+Then, Pick's Theorem states that, A = B/2 + I - 1
+Therefore, I = (2A-B+2)/2, which is the number we want to find
+
+The below code is a solution for lightoj 1418 - Trees on My Island. Basically a template Pick's theorem problem.
+In this problem, a simple polygon is given whose vertices are lattice points and given in clockwise or anti-clockwise 
+order. You have to find #of lattice points inside the polygon.
+
+t = #of testcases (<= 100)
+n = #of vertices (<= 10000)
+co-ordinates are between -10^6 and 10^6
+
+Solution:
+
+
+struct Point {
+    vlong x, y;
+};
+
+vlong twicepolygonArea(vector<Point> List) { //will return 2*polygonarea, notice the type is vlong
+    vlong area = 0;
+    for (int i = 1; i + 1 < List.size(); i++){
+        area += (List[i].y - List[0].y) * (List[i + 1].x - List[i].x)
+                - (List[i].x - List[0].x) * (List[i + 1].y - List[i].y);
+    }
+
+    //return fabs(area / 2.0);
+
+    area = ABS(area);
+
+    return area;
+}
+  
+ 
+int main () {
+ 
+    #ifdef forthright48
+    freopen ( "00_input.txt", "r", stdin ); //freopen ( "00_output.txt", "w", stdout );
+    #endif
+ 
+    int t; cin >> t;
+
+    rep(kas,t) {
+
+        int n;
+        vlong x,y,tx,ty;
+        std::vector<Point> v; v.clear();
+        Point p;
+
+        gi(n);
+
+        rep(i,n) {
+            gl(x); gl(y);
+
+            p.x = x; 
+            p.y = y;
+
+            v.pb(p);
+        }
+
+        vlong a = twicepolygonArea(v);
+        vlong b = 0, ans;
+
+        FOR(i,0,SZ(v)-1) {
+            x = i; y = i+1;
+            if(y == SZ(v)) y = 0;
+
+            b += __gcd( ABS(v[x].x-v[y].x), ABS(v[x].y-v[y].y) ); 
+            //To find #of lattice points on the boundary. 
+            //using __gcd instead of template gcd to in case one (or both) of the parameters become 0.
+            //You can also accomodate this by modifying the template gcd function
+            
+        }
+
+        ans = a-b+2; 
+        ans /= 2;
+
+        pf("Case %d: %lld\n",kas,ans);
+    }
+    
+ 
+    return 0;
+}
