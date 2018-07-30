@@ -1,3 +1,21 @@
+Some theoretical stuff on Bipartite graph:
+
+Vertex cover: Set of vertices that cover all the edges of the graph
+Independent Set: Set of vertices that don't have any edges between them
+Clique: Set of vertices that have all pair edges between them (from left to right only ofcourse)
+
+König's theorem says that min vertex cover == max match on bipartite graphs. 
+	
+Min vertex cover is trivially the same as max independent set (a set of vertices forms a min cover if all vertices 
+not in the set are independent).
+	
+Therefore, Max match = Min vertex cover = #of nodes - Max independent set
+
+Every independent set induces a clique in the complement graph.
+Therefore, Size of max clique = Max independent set
+
+
+
 // Kuhn's Algo for finding Maximum matching
 
 // README
