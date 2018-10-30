@@ -16,3 +16,37 @@ Step 3: Multiply all the results -
 	(1 * 1 * 6 * 2) % 5 = 12 % 5 = 2
  
 Therefore (472 C 86) % 5 = 2 
+	
+C++ Code:
+//Computes C(n,r) % p using Lucas Theorem, where p is a prime
+//fact[i] = i! % p
+//precalculate fact[i] for 0 <= i <= p-1 (for i >= p, fact[i] == 0)
+//Add modInv from base template
+
+vlong ncr(int n, int r, int p) {
+    
+    if(n < r) return 0;
+
+    vlong res = 1, up, down;
+    int a,b;
+    
+    while(n || r) {
+        a = n % p;
+        b = r % p;
+
+        if(a < b) {
+            return 0;
+        }
+
+        up = fact[a];
+        down = (fact[b] * fact[a-b]) % p;
+        down = modInv(down, p);
+
+        res = (res * ((up * down) % p)) % p;
+
+        n /= p;
+        r /= p;
+    }
+
+    return res;
+}
