@@ -19,17 +19,21 @@ Then, Hash value of substring [L,R] of S is:
 hash(L,R) = ( hash(R) - hash(L-1) ) / ( p ^ L ); 
 
 
-Here, mod is a prime number greater than 10^9 and p is a prime greater than number of distinct element in our string (29 or 31 works in case of lowecase english letters). p is chosen as a prime because we will have to calculate modInverse to get the hash value of a substring in O(1) time. 
+Here, mod is a prime number greater than 10^9 and p is a prime greater than number of distinct element in our string (29 or 
+31 works in case of lowecase english letters). p is chosen as a prime because we will have to calculate modInverse to get 
+the hash value of a substring in O(1) time. 
 
 
 Remember that this is only one hash function and there can be lots of other good hash functions that avoid collisions. 
 
-You can use double hash function to have very high probability that your result will be correct. To do double hash, we use two different mod values. But mod1 * mod2 must not result in overflow. (10^9 + 7) and (10^9 + 9) works.
+You can use double hash function to have very high probability that your result will be correct. To do double hash, we use 
+two different mod values. But mod1 * mod2 must not result in overflow. (10^9 + 7) and (10^9 + 9) works.
 
 
 The following is my C++ implementation of lightoj 1255 (Substring Frequency):
 
-Problem Statement: A string and a pattern string is given (both contains lowercase english letter only and length <= 10^6). Find out how many times the pattern string occurs in the given string (as a substring). 
+Problem Statement: A string and a pattern string is given (both contains lowercase english letter only and length <= 10^6). 
+Find how many times the pattern string occurs in the given string (as a substring). 
 
 C++ Code:
 
@@ -88,7 +92,7 @@ int main () {
             x = (x + ((primepow[i-1] * (ps[i]) ) % mod) ) % mod;
         }
         
-        
+
         for(int i = 1; i <= len-plen+1; i++) {
            
             y = (fhash[i+plen-1] - fhash[i-1] + mod) % mod;
