@@ -1,3 +1,5 @@
+// srand(time(NULL)); 
+
 struct randomClass{
 
     const LL rndmx = 32768;
