@@ -66,8 +66,12 @@ const vlong inf = 2147383647;
 const vlong mod = 1000000007;
 const double pi = 2 * acos ( 0.0 );
 const double eps = 1e-9;
- 
- 
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+//mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+///======================  TEMPLATE ENDS HERE  =====================/// 
+
  
 int main () {
  
@@ -80,3 +84,4 @@ int main () {
  
     return 0;
 }
+
