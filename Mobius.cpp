@@ -5,7 +5,7 @@
 /// mobius(x) = -1 : square free number with odd number of distinct prime factors
 /// mobius(x) = 1  : square free number with even number of distinct prime factors
 /// mobius(x) = 0  : not a square free number
-/// Store all the prime till N in vector prime by calling getPrime(), then call mobiusCalc(N)
+/// Store all the prime till N in vector prime by calling getPrime(N), then call mobiusCalc(N)
 
 
 int status[Size+10];
@@ -13,19 +13,19 @@ vector<int> prime;
 
 int mobius[Size+10];
 
-void getPrime() {
-    for(int i = 4; i <= Size; i += 2) status[i] = 1;
+void getPrime(int n) {
+    for(int i = 4; i <= n; i += 2) status[i] = 1;
 
-    for(int i = 3; i*i <= Size; i += 2) {
+    for(int i = 3; i*i <= n; i += 2) {
         if(!status[i]) {
-            for(int j = i*i; j <= Size; j += i+i) {
+            for(int j = i*i; j <= n; j += i+i) {
                 status[j] = 1;
             }
         }
     }
     
     prime.pb(2);
-    for(int i = 3; i <= Size; i += 2) {
+    for(int i = 3; i <= n; i += 2) {
         if(!status[i]) prime.pb(i);
     }
 }
@@ -47,7 +47,7 @@ void mobiusCalc(int n){
 
     ///For each prime, all it's multiple gets multiplied by -1
     for(int i = 0; i < SZ(prime); i++) {
-        for(int j = prime[i]; j <= n; j += prime[i]) mobius[j] *= -1;
+        for(int j = prime[i]; j <= n; j += prime[i]) mobius[j] = -mobius[j];
     }
 }
 
