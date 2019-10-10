@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
- 
- 
+
+
 #define pb push_back
 #define nl puts ("")
 #define sp printf ( " " )
@@ -42,10 +42,10 @@
 #define gl(k) scanf("%lld",&k)
 #define NMAX 2147483647
 #define LMAX 9223372036854775807LL
- 
+
 using namespace std;
- 
- 
+
+
 #define LL long long
 #define LLU long long unsigned int
 typedef long long vlong;
@@ -55,33 +55,35 @@ typedef pair < vlong, vlong > pll;
 typedef vector<int> vi;
 typedef vector<vlong> vl;
 typedef vector<pll> vll;
- 
+
 inline vlong gcd ( vlong a, vlong b ) {
     a = ABS ( a ); b = ABS ( b );
     while ( b ) { a = a % b; swap ( a, b ); } return a;
 }
- 
- 
+
+
 const vlong inf = 2147383647;
 const vlong mod = 1000000007;
 const double pi = 2 * acos ( 0.0 );
 const double eps = 1e-9;
 
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+//mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 //mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
-///======================  TEMPLATE ENDS HERE  =====================/// 
+///_______________Template Ends Here_______________///
 
- 
+
+
 int main () {
- 
- 	#ifdef forthright48
+
+    #ifdef LOCAL
     freopen ( "00_input.txt", "r", stdin ); //freopen ( "00_output.txt", "w", stdout );
- 	#endif
- 
-	
-	
- 
+    #endif
+    
+    //fast_cin;
+
+    
+
     return 0;
 }
 
