@@ -1,0 +1,4 @@
+Go to the directory containing the .cpp file:
+
+g++ FileName.cpp
+./a.out < 00_input.txt
