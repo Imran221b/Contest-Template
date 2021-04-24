@@ -1,15 +1,7 @@
-//From Sabit Zahin 
-
-int getRand() {
-    int res = ( rand() << 15) | rand();
-    return res;
-}
-
-
 //From CF blog - https://codeforces.com/blog/entry/61587
 
 What's the solution?
-Don't worry, as of C++11 there are much better random number generators available in C++. The only thing you need to remember is to use mt19937, included in the <random> header. This is a Mersenne Twister based on the prime 219937 - 1, which also happens to be its period. It's a much higher-quality RNG than rand(), in addition to being much faster (389 ms to generate and add 108 numbers from mt19937 in Custom Invocation, vs. 1170 ms for rand()). It also produces full 32-bit unsigned outputs between 0 and 232 - 1 = 4294967295, rather than maxing out at a measly 32767.
+Don't worry, as of C++11 there are much better random number generators available in C++. The only thing you need to remember is to use mt19937, included in the <random> header. This is a Mersenne Twister based on the prime 2^19937 - 1, which also happens to be its period. It's a much higher-quality RNG than rand(), in addition to being much faster (389 ms to generate and add 108 numbers from mt19937 in Custom Invocation, vs. 1170 ms for rand()). It also produces full 32-bit unsigned outputs between 0 and 2^32 - 1 = 4294967295, rather than maxing out at a measly 32767.
 
 To replace random_shuffle(), you can now call shuffle() and pass in your mt19937 as the third argument; the shuffle algorithm will use your provided generator for shuffling.
 
@@ -56,3 +48,5 @@ int main() {
     cout << average_distance(permutation) << '\n';
 }
 Both shuffles result in almost exactly 106 average distance, like we originally expected.
+
+ 
