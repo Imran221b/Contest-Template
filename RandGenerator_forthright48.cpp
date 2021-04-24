@@ -106,7 +106,23 @@ inline vlong bigmod ( vlong a, vlong p, vlong m ) {
 
 /***********Template Ends Here***********/
 char buf[100];
-mt19937 generator (42); ///Change Seed Here
+
+/*mt19937 generator (42); ///Change Seed Here
+
+vlong getInt ( vlong a, vlong b ) {
+
+    uniform_int_distribution<vlong> dist(a,b);
+
+    return dist ( generator );
+
+} */
+
+// The above getInt (commented out) was the original file. For the below one, you 
+// don't have to manually change seed. This one should be safer as well.
+// But in case of any problem, go back to the older one. 
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+mt19937 generator ( rng() ); 
 
 vlong getInt ( vlong a, vlong b ) {
 
